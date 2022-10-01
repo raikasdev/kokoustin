@@ -24,7 +24,7 @@ import { IconTableImport, IconTableExport } from "@tabler/icons";
 import { openConfirmModal } from "@mantine/modals";
 import { createClient } from '@supabase/supabase-js'
 import { stringAt } from "pdfkit/js/data";
-const supabase = createClient(process.env.SUPABASE_URL || '', process.env.SUPABASE_API_KEY || '')
+const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.NEXT_PUBLIC_SUPABASE_API_KEY || '')
 
 const councilMembers: CouncilMember[] = [
   {
@@ -84,6 +84,25 @@ export default function App() {
       if (temp.length !== 0) {
         setSelected(temp[0]);
       }
+    } else {
+      alert('Odota hetki, haetaan pöytäkirjamerkintöjä...')
+      supabase.from<{ json: string, version: number }>('data').select('*').then((rows) => {
+        const versions = rows.body?.map(i => i.version) || [];
+        var highScore = Math.max.apply(Math, versions);     // gives the highest score
+        var scoreIndex = versions.indexOf(highScore);       // gives the location of the highest score
+        var newestRow = (rows.body || [])[scoreIndex];
+        console.log(newestRow);
+        console.log(rows);
+        if (!newestRow) {
+        } else {
+          const data = JSON.parse(newestRow.json);
+          localStorage.setItem('poytakirjat', newestRow.json);
+          setPoytakirjat(data);
+          if (data.length !== 0) {
+            setSelected(data[0]);
+          }
+        }
+      })
     }
     setLoading(false);
   }, []);
