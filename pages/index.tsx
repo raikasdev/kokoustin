@@ -24,7 +24,7 @@ import { IconTableImport, IconTableExport } from "@tabler/icons";
 import { openConfirmModal } from "@mantine/modals";
 import { createClient } from '@supabase/supabase-js'
 import { stringAt } from "pdfkit/js/data";
-const supabase = createClient('https://fhkprydvuuufdwrgsedp.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZoa3ByeWR2dXV1ZmR3cmdzZWRwIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjQ2NTMyMjMsImV4cCI6MTk4MDIyOTIyM30.lO7OTdSQxtAUIOtLd5xJx4OHMiw8vDUWVxhDd4elLcM')
+const supabase = createClient(process.env.SUPABASE_URL || '', process.env.SUPABASE_API_KEY || '')
 
 const councilMembers: CouncilMember[] = [
   {
