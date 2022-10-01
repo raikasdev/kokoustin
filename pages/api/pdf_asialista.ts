@@ -22,7 +22,7 @@ const pdf = async (req: NextApiRequest, res: NextApiResponse) => {
     .font('Helvetica-Bold')
     .fontSize(12)
     .text(`Asialista: Jämsän nuorisovaltuuston kokous ${poytakirja.date}`)
-    .text('Kokouspaikka: ')
+    .text('Kokouspaikka: ', { continued: true })
     .font('Helvetica')
     .text(poytakirja.location || 'Nuorten Raitti')
   
