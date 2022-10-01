@@ -43,7 +43,7 @@ const pdf = async (req: NextApiRequest, res: NextApiResponse) => {
     .fontSize(10)
     .text('Pohjaesitys: ')
     .font('Helvetica')
-    .text(i.presention?.replaceAll('\\\\n', '\n') || '')
+    .text(i.presention?.replaceAll('\\n', '\n') || '')
   })
 
   doc
