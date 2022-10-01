@@ -7,7 +7,7 @@ export function Item({ poytakirja, setPoytakirja, itemIndex }: { poytakirja: Poy
   return (
     <>
       <h2>
-        <Group grow>{itemIndex + 2}. <TextInput value={item.title} onChange={(event) => {
+        <Group sx={{ width: '100%' }}><p>{itemIndex + 2}.</p> <TextInput sx={{ flexGrow: 1 }} value={item.title} onChange={(event) => {
         item.title = event.currentTarget.value;
         setPoytakirja(pkc);
       }} placeholder="Asian nimi"/></Group></h2>
