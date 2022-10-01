@@ -96,17 +96,17 @@ const pdf = async (req: NextApiRequest, res: NextApiResponse) => {
     .fontSize(10)
     .text('Pohjaesitys: ')
     .font('Helvetica')
-    .text(i.presention || '')
+    .text(i.presention?.replaceAll('\\\\n', '\n') || '')
     if (i.meeting) {
       doc.font('Helvetica-Bold')
       .text('Kokous: ')
       .font('Helvetica')
-      .text(i.meeting || '')
+      .text(i.meeting?.replaceAll('\\\\n', '\n') || '')
     }
     doc.font('Helvetica-Bold')
     .text('Päätös: ')
     .font('Helvetica')
-    .text(`${i.decision}\n\n`)
+    .text(`${i.decision?.replaceAll('\\\\n', '\n')}\n\n`)
   })
 
   doc
