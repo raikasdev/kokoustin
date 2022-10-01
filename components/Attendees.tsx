@@ -39,7 +39,7 @@ export default function Attendees({ poytakirja, setPoytakirja }: { poytakirja: P
         />
       </td>
       <td>
-        <TextInput placeholder="15:18" pattern="\d\d:\d\d" maxLength={5} value={member.joinedLate} onClick={(event) => {
+        <TextInput sx={{ minWidth: '150px' }} placeholder="15:18" pattern="\d\d:\d\d" maxLength={5} value={member.joinedLate} onClick={(event) => {
           member.joinedLate = event.currentTarget.value;
           setPoytakirja(pkc);
         }}  rightSection={<ActionIcon onClick={() => {
@@ -48,7 +48,7 @@ export default function Attendees({ poytakirja, setPoytakirja }: { poytakirja: P
         }} ><IconClock size="xs" /></ActionIcon>}/>
       </td>
       <td>
-        <TextInput placeholder="16:12" pattern="\d\d:\d\d" maxLength={5} value={member.left} onClick={(event) => {
+        <TextInput sx={{ minWidth: '150px' }} placeholder="16:12" pattern="\d\d:\d\d" maxLength={5} value={member.left} onClick={(event) => {
           member.left = event.currentTarget.value;
           setPoytakirja(pkc);
         }}  rightSection={<ActionIcon onClick={() => {
@@ -64,7 +64,7 @@ export default function Attendees({ poytakirja, setPoytakirja }: { poytakirja: P
       <td>{member.name}</td>
       <td>{member.role}</td>
       <td>
-        <TextInput placeholder="15:18" pattern="\d\d:\d\d" maxLength={5} value={member.joinedLate} onClick={(event) => {
+        <TextInput sx={{ minWidth: '150px' }} placeholder="15:18" pattern="\d\d:\d\d" maxLength={5} value={member.joinedLate} onClick={(event) => {
           member.joinedLate = event.currentTarget.value;
           setPoytakirja(pkc);
         }} 
@@ -74,7 +74,7 @@ export default function Attendees({ poytakirja, setPoytakirja }: { poytakirja: P
         }} ><IconClock size="xs" /></ActionIcon>} />
       </td>
       <td>
-        <TextInput placeholder="16:12" pattern="\d\d:\d\d" maxLength={5} value={member.left} onClick={(event) => {
+        <TextInput sx={{ minWidth: '150px' }} placeholder="16:12" pattern="\d\d:\d\d" maxLength={5} value={member.left} onClick={(event) => {
           member.left = event.currentTarget.value;
           setPoytakirja(pkc);
         }}  rightSection={<ActionIcon onClick={() => {
@@ -128,10 +128,10 @@ export default function Attendees({ poytakirja, setPoytakirja }: { poytakirja: P
             <td><TextInput value={newName} onChange={(event) => setNewName(event.currentTarget.value)} placeholder="Nimi" /></td>
             <td><TextInput value={newRole} onChange={(event) => setNewRole(event.currentTarget.value)} placeholder="Rooli" /></td>
             <td>
-              <TextInput value={newLate} onChange={(event) => setNewLate(event.currentTarget.value)} placeholder="15:18" pattern="\d\d:\d\d" maxLength={5} />
+              <TextInput sx={{ minWidth: '150px' }} value={newLate} onChange={(event) => setNewLate(event.currentTarget.value)} placeholder="15:18" pattern="\d\d:\d\d" maxLength={5} />
             </td>
             <td>
-              <TextInput value={newLeft} onChange={(event) => setNewLeft(event.currentTarget.value)} placeholder="16:12" pattern="\d\d:\d\d" maxLength={5} />
+              <TextInput sx={{ minWidth: '150px' }} value={newLeft} onChange={(event) => setNewLeft(event.currentTarget.value)} placeholder="16:12" pattern="\d\d:\d\d" maxLength={5} />
             </td>
             <td>
               <ActionIcon color="green" onClick={() => {
