@@ -85,7 +85,6 @@ export default function App() {
         setSelected(temp[0]);
       }
     } else {
-      alert('Odota hetki, haetaan pöytäkirjamerkintöjä...')
       supabase.from<{ json: string, version: number }>('data').select('*').then((rows) => {
         const versions = rows.body?.map(i => i.version) || [];
         var highScore = Math.max.apply(Math, versions);     // gives the highest score
@@ -230,7 +229,7 @@ export default function App() {
       }
     >
       {loading && <Loader />}
-      {selected == null && !loading && <h2>Valitse tai luo pöytäkirja</h2>}
+      {selected == null && !loading && <h2>Haetaan pöytäkirjoja tietokannasta</h2>}
       {selected != null && <Actions poytakirja={selected} remove={() => {
         const temp = [...poytakirjat];
         temp.splice(temp.map(i=>i.date).indexOf(selected.date), 1);
