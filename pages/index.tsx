@@ -44,7 +44,10 @@ export default function App({
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState<null | Poytakirja>(null);
   const [day, setDay] = useState<Date>(new Date());
+  const [password, setPassword] = useState('');
+
   useEffect(() => {
+    setPassword(localStorage.getItem('poytakirjat_password') || '');
     if (localStorage.getItem("poytakirjat")) {
       const temp = JSON.parse(localStorage.getItem("poytakirjat") || "[]");
       setPoytakirjat(temp);
@@ -52,24 +55,7 @@ export default function App({
         setSelected(temp[0]);
       }
     } else {
-      supabase
-        .from<{ json: string; version: number }>("data")
-        .select("*")
-        .then((rows) => {
-          const versions = rows.body?.map((i) => i.version) || [];
-          var highScore = Math.max.apply(Math, versions); // gives the highest score
-          var scoreIndex = versions.indexOf(highScore); // gives the location of the highest score
-          var newestRow = (rows.body || [])[scoreIndex];
-          if (!newestRow) {
-          } else {
-            const data = JSON.parse(newestRow.json);
-            localStorage.setItem("poytakirjat", newestRow.json);
-            setPoytakirjat(data);
-            if (data.length !== 0) {
-              setSelected(data[0]);
-            }
-          }
-        });
+      importData(setPoytakirjat, setSelected, password, setPassword);
     }
     setLoading(false);
   }, []);
@@ -171,14 +157,20 @@ export default function App({
             <Button
               variant="light"
               leftIcon={<IconTableImport size={25} />}
-              onClick={() => importData(setPoytakirjat, setSelected)}
+              onClick={() => importData(setPoytakirjat, setSelected, password, (pwd: string) => {
+                localStorage.setItem('poytakirjat_password', pwd);
+                setPassword(pwd);
+              })}
             >
               Tuo tietokannasta
             </Button>
             <Button
               variant="light"
               leftIcon={<IconTableExport size={25} />}
-              onClick={() => exportData()}
+              onClick={() => exportData(password, (pwd: string) => {
+                localStorage.setItem('poytakirjat_password', pwd);
+                setPassword(pwd);
+              })}
             >
               Vie tietokantaan
             </Button>
@@ -337,29 +329,41 @@ export default function App({
   );
 }
 
-function importData(setPoytakirjat: any, setSelected: any) {
+function Password({ passwordSet, initial }: { passwordSet: (pwd: string) => void, initial: string }) {
+  const [password, setPassword] = useState(initial);
+  return (
+    <TextInput label="Salasana" value={password} onChange={(e) => { setPassword(e.currentTarget.value); passwordSet(e.currentTarget.value); }} />
+  )
+}
+
+function importData(setPoytakirjat: any, setSelected: any, password: any, setPassword: any) {
+  let password1 = password;
   openConfirmModal({
     title: "Varmista tuonti",
     children: (
-      <Text size="sm">
-        Huomioi että tietojen tuonti ylikirjoittaa paikalliset muutokset.
-        <br />
-        Huomiothan että pöytäkirjapalvelu ei tue monen henkilön yhtäaikaista
-        käyttöä.
-      </Text>
+      <>
+        <Text size="sm">
+          Huomioi että tietojen tuonti ylikirjoittaa paikalliset muutokset.
+          <br />
+          Huomiothan että pöytäkirjapalvelu ei tue monen henkilön yhtäaikaista
+          käyttöä.
+        </Text>
+        <Password initial={password} passwordSet={(pwd: string) => { setPassword(pwd); password1 = pwd }} />
+      </>
     ),
     labels: { confirm: "Tuo ja ylikirjoita", cancel: "Peru" },
     onConfirm: () => {
       supabase
-        .from<{ json: string; version: number }>("data")
-        .select("*")
+        .from<{ json: string; version: number; password: string; }>("data")
+        .select("version,json")
+        .eq('password', password1)
         .then((rows) => {
           const versions = rows.body?.map((i) => i.version) || [];
           var highScore = Math.max.apply(Math, versions); // gives the highest score
           var scoreIndex = versions.indexOf(highScore); // gives the location of the highest score
           var newestRow = (rows.body || [])[scoreIndex];
           if (!newestRow) {
-            alert("Tietokannassa ei ole vielä dataa.");
+            alert("Salasana väärin.");
           } else {
             const data = JSON.parse(newestRow.json);
             localStorage.setItem("poytakirjat", newestRow.json);
@@ -374,16 +378,20 @@ function importData(setPoytakirjat: any, setSelected: any) {
   });
 }
 
-function exportData() {
+function exportData(password: any, setPassword: any) {
+  let password1 = password;
   openConfirmModal({
     title: "Varmista vienti",
     children: (
-      <Text size="sm">
-        Huomioi että tietojen vienti ylikirjoittaa pilvessä olevat tiedot.
-        <br />
-        Huomiothan että pöytäkirjapalvelu ei tue monen henkilön yhtäaikaista
-        käyttöä.
-      </Text>
+      <>
+        <Text size="sm">
+          Huomioi että tietojen vienti ylikirjoittaa pilvessä olevat tiedot.
+          <br />
+          Huomiothan että pöytäkirjapalvelu ei tue monen henkilön yhtäaikaista
+          käyttöä.
+        </Text>
+        <Password initial={password} passwordSet={(pwd: string) => { setPassword(pwd); password1 = pwd; }} />
+      </>
     ),
     labels: { confirm: "Vie ja ylikirjoita", cancel: "Peru" },
     onConfirm: () => {
@@ -391,9 +399,14 @@ function exportData() {
         .from("data")
         .insert({
           json: localStorage.getItem("poytakirjat") || "[]",
+          password: password1
         })
-        .then(() => {
-          alert("Vienti onnistui.");
+        .then((res) => {
+          if (res.error) {
+            alert("Virheellinen salasana")
+          } else {
+            alert("Vienti onnistui.")
+          }
         });
     },
   });
