@@ -1,0 +1,63 @@
+{
+  "councilMembers": [
+    {
+      "name": "Silja Piirainen",
+      "role": "Puheenjohtaja"
+    },
+    {
+      "name": "Saara Toivonen",
+      "role": "Jäsen",
+      "mainMemberName": "Silja Piirainen",
+      "roleIfMainMemberAbsent": "Puheenjohtaja (varalla)"
+    },
+    {
+      "name": "Roni Äikäs",
+      "role": "Sihteeri"
+    },
+    {
+      "name": "Pinja Pietarinen",
+      "role": "Jäsen",
+      "mainMemberName": "Roni Äikäs",
+      "roleIfMainMemberAbsent": "Sihteeri (varalla)"
+    },
+    {
+      "name": "Miro Isotalo",
+      "role": "Jäsen"
+    },
+    {
+      "name": "Malla Myyry",
+      "role": "Jäsen"
+    },
+    {
+      "name": "Pessi Lemmetyinen",
+      "role": "Jäsen"
+    },
+    {
+      "name": "Onni Juntunen",
+      "role": "Jäsen"
+    },
+    {
+      "name": "Jesse Sipovaara",
+      "role": "Jäsen"
+    }
+  ],
+  "defaultOther": [
+    {
+      "name": "Kaija EL ibourki",
+      "role": "Nuorisovaltuuston tutor"
+    },
+    {
+      "name": "Pia Salminen",
+      "role": "Nuorisovaltuuston tutor"
+    }
+  ],
+  "defaultLocation": "Nuorten Raitti",
+  "roleOrder": {
+    "Puheenjohtaja": 3,
+    "Puheenjohtaja (varalla)": 3,
+    "Sihteeri": 2,
+    "Sihteeri (varalla)": 2,
+    "Jäsen": 1
+  },
+  "pdftitleprefix": "Jämsän nuorisovaltuuston kokous"
+}

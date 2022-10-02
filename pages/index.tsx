@@ -1,4 +1,4 @@
-import { MouseEventHandler, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   AppShell,
   Navbar,
@@ -19,57 +19,24 @@ import { End } from "../components/End";
 import { Item } from "../components/Item";
 import { Actions } from "../components/Actions";
 import { DatePicker } from "@mantine/dates";
-import 'dayjs/locale/fi';
+import "dayjs/locale/fi";
 import { IconTableImport, IconTableExport } from "@tabler/icons";
 import { openConfirmModal } from "@mantine/modals";
-import { createClient } from '@supabase/supabase-js'
-import { stringAt } from "pdfkit/js/data";
-const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.NEXT_PUBLIC_SUPABASE_API_KEY || '')
+import { createClient } from "@supabase/supabase-js";
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL || "",
+  process.env.NEXT_PUBLIC_SUPABASE_API_KEY || ""
+);
 
-const councilMembers: CouncilMember[] = [
-  {
-    name: "Silja Piirainen",
-    role: "Puheenjohtaja",
-  },
-  {
-    name: "Saara Toivonen",
-    role: "Jäsen",
-    mainMemberName: "Silja Piirainen",
-    roleIfMainMemberAbsent: "Puheenjohtaja (varalla)",
-  },
-  {
-    name: "Roni Äikäs",
-    role: "Sihteeri",
-  },
-  {
-    name: "Pinja Pietarinen",
-    role: "Jäsen",
-    mainMemberName: "Roni Äikäs",
-    roleIfMainMemberAbsent: "Sihteeri (varalla)",
-  },
-  {
-    name: "Miro Isotalo",
-    role: "Jäsen",
-  },
-  {
-    name: "Malla Myyry",
-    role: "Jäsen",
-  },
-  {
-    name: "Pessi Lemmetyinen",
-    role: "Jäsen",
-  },
-  {
-    name: "Onni Juntunen",
-    role: "Jäsen",
-  },
-  {
-    name: "Jesse Sipovaara",
-    role: "Jäsen",
-  },
-];
-
-export default function App() {
+export default function App({
+  councilMembers,
+  defaultOther,
+  defaultLocation,
+}: {
+  councilMembers: CouncilMember[];
+  defaultOther: Attendee[];
+  defaultLocation: string;
+}) {
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
 
@@ -85,23 +52,24 @@ export default function App() {
         setSelected(temp[0]);
       }
     } else {
-      supabase.from<{ json: string, version: number }>('data').select('*').then((rows) => {
-        const versions = rows.body?.map(i => i.version) || [];
-        var highScore = Math.max.apply(Math, versions);     // gives the highest score
-        var scoreIndex = versions.indexOf(highScore);       // gives the location of the highest score
-        var newestRow = (rows.body || [])[scoreIndex];
-        console.log(newestRow);
-        console.log(rows);
-        if (!newestRow) {
-        } else {
-          const data = JSON.parse(newestRow.json);
-          localStorage.setItem('poytakirjat', newestRow.json);
-          setPoytakirjat(data);
-          if (data.length !== 0) {
-            setSelected(data[0]);
+      supabase
+        .from<{ json: string; version: number }>("data")
+        .select("*")
+        .then((rows) => {
+          const versions = rows.body?.map((i) => i.version) || [];
+          var highScore = Math.max.apply(Math, versions); // gives the highest score
+          var scoreIndex = versions.indexOf(highScore); // gives the location of the highest score
+          var newestRow = (rows.body || [])[scoreIndex];
+          if (!newestRow) {
+          } else {
+            const data = JSON.parse(newestRow.json);
+            localStorage.setItem("poytakirjat", newestRow.json);
+            setPoytakirjat(data);
+            if (data.length !== 0) {
+              setSelected(data[0]);
+            }
           }
-        }
-      })
+        });
     }
     setLoading(false);
   }, []);
@@ -128,14 +96,15 @@ export default function App() {
           hidden={!opened}
           width={{ sm: 200, lg: 300 }}
         >
-          <Stack justify="space-between" sx={{ height: '100%'}}>
+          <Stack justify="space-between" sx={{ height: "100%" }}>
             <Stack>
               {loading && <Loader />}
               {poytakirjat.map((poytakirja) => (
                 <NavLink
                   label={`Pöytäkirja ${poytakirja.date}`}
-                  {...(selected?.date === poytakirja.date ? {variant:"filled",
-                  active:true} : {})}
+                  {...(selected?.date === poytakirja.date
+                    ? { variant: "filled", active: true }
+                    : {})}
                   onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
                     event.stopPropagation();
                     event.preventDefault();
@@ -143,7 +112,13 @@ export default function App() {
                   }}
                 />
               ))}
-              <DatePicker placeholder="Kokouspäivä" label="Valitse kokouspäivä" value={day} onChange={(date) => setDay(date || new Date())} locale="fi" />
+              <DatePicker
+                placeholder="Kokouspäivä"
+                label="Valitse kokouspäivä"
+                value={day}
+                onChange={(date) => setDay(date || new Date())}
+                locale="fi"
+              />
               <NavLink
                 label={`+ Uusi pöytäkirja`}
                 variant="light"
@@ -181,18 +156,9 @@ export default function App() {
                       absent: false,
                       memberObject: i,
                     })),
-                    other: [
-                      {
-                        name: "Kaija EL ibourki",
-                        role: "Nuorisovaltuuston tutor",
-                      },
-                      {
-                        name: "Pia Salminen",
-                        role: "Nuorisovaltuuston tutor",
-                      },
-                    ],
+                    other: defaultOther,
                     items: [],
-                    location: "Nuorten Raitti",
+                    location: defaultLocation,
                   });
                   setPoytakirjat(temp);
                   setSelected(temp[0]);
@@ -202,10 +168,21 @@ export default function App() {
             </Stack>
           </Stack>
           <Stack spacing="sm">
-            <Button variant="light" leftIcon={<IconTableImport size={25} />} onClick={() => importData(setPoytakirjat, setSelected)}>Tuo tietokannasta</Button>
-            <Button variant="light" leftIcon={<IconTableExport size={25} />} onClick={() => exportData()}>Vie tietokantaan</Button>
+            <Button
+              variant="light"
+              leftIcon={<IconTableImport size={25} />}
+              onClick={() => importData(setPoytakirjat, setSelected)}
+            >
+              Tuo tietokannasta
+            </Button>
+            <Button
+              variant="light"
+              leftIcon={<IconTableExport size={25} />}
+              onClick={() => exportData()}
+            >
+              Vie tietokantaan
+            </Button>
           </Stack>
-          
         </Navbar>
       }
       header={
@@ -229,17 +206,24 @@ export default function App() {
       }
     >
       {loading && <Loader />}
-      {selected == null && !loading && <h2>Haetaan pöytäkirjoja tietokannasta</h2>}
-      {selected != null && <Actions poytakirja={selected} remove={() => {
-        const temp = [...poytakirjat];
-        temp.splice(temp.map(i=>i.date).indexOf(selected.date), 1);
-        setPoytakirjat(temp);
-        if (temp.length !== 0) {
-          setSelected(temp[0]);
-        } else {
-          setSelected(null);
-        }
-      }} />}
+      {selected == null && !loading && (
+        <h2>Haetaan pöytäkirjoja tietokannasta</h2>
+      )}
+      {selected != null && (
+        <Actions
+          poytakirja={selected}
+          remove={() => {
+            const temp = [...poytakirjat];
+            temp.splice(temp.map((i) => i.date).indexOf(selected.date), 1);
+            setPoytakirjat(temp);
+            if (temp.length !== 0) {
+              setSelected(temp[0]);
+            } else {
+              setSelected(null);
+            }
+          }}
+        />
+      )}
       {selected != null && (
         <>
           <h2>Kokouspaikka</h2>
@@ -303,7 +287,9 @@ export default function App() {
         />
       )}
       {selected?.items.map((_i, index) => (
-        <Item poytakirja={selected} setPoytakirja={(poytakirja) => {
+        <Item
+          poytakirja={selected}
+          setPoytakirja={(poytakirja) => {
             const temp = [...poytakirjat];
             const index = temp.map((i) => i.date).indexOf(poytakirja.date);
             temp[index] = poytakirja;
@@ -311,19 +297,27 @@ export default function App() {
             updateDB(temp);
             setSelected(poytakirja);
           }}
-          itemIndex={index} />
+          itemIndex={index}
+        />
       ))}
       {selected != null && (
-        <Button mt={30} mb={5} variant="light" onClick={() => {
-          const temp = [...poytakirjat];
-          const tempp = { ...selected };
-          tempp.items.push({})
-          const index = temp.map((i) => i.date).indexOf(tempp.date);
-          temp[index] = tempp;
-          setPoytakirjat(temp);
-          updateDB(temp);
-          setSelected(tempp);
-        }}>+ Luo uusi käsiteltävä asia</Button>
+        <Button
+          mt={30}
+          mb={5}
+          variant="light"
+          onClick={() => {
+            const temp = [...poytakirjat];
+            const tempp = { ...selected };
+            tempp.items.push({});
+            const index = temp.map((i) => i.date).indexOf(tempp.date);
+            temp[index] = tempp;
+            setPoytakirjat(temp);
+            updateDB(temp);
+            setSelected(tempp);
+          }}
+        >
+          + Luo uusi käsiteltävä asia
+        </Button>
       )}
       {selected != null && (
         <End
@@ -343,58 +337,76 @@ export default function App() {
   );
 }
 
-function importData(setPoytakirjat: any, setSelected: any){
+function importData(setPoytakirjat: any, setSelected: any) {
   openConfirmModal({
-    title: 'Varmista tuonti',
+    title: "Varmista tuonti",
     children: (
       <Text size="sm">
         Huomioi että tietojen tuonti ylikirjoittaa paikalliset muutokset.
         <br />
-        Huomiothan että pöytäkirjapalvelu ei tue monen henkilön yhtäaikaista käyttöä.
+        Huomiothan että pöytäkirjapalvelu ei tue monen henkilön yhtäaikaista
+        käyttöä.
       </Text>
     ),
-    labels: { confirm: 'Tuo ja ylikirjoita', cancel: 'Peru' },
+    labels: { confirm: "Tuo ja ylikirjoita", cancel: "Peru" },
     onConfirm: () => {
-      supabase.from<{ json: string, version: number }>('data').select('*').then((rows) => {
-        const versions = rows.body?.map(i => i.version) || [];
-        var highScore = Math.max.apply(Math, versions);     // gives the highest score
-        var scoreIndex = versions.indexOf(highScore);       // gives the location of the highest score
-        var newestRow = (rows.body || [])[scoreIndex];
-        console.log(newestRow);
-        console.log(rows);
-        if (!newestRow) {
-          alert('Tietokannassa ei ole vielä dataa.')
-        } else {
-          const data = JSON.parse(newestRow.json);
-          localStorage.setItem('poytakirjat', newestRow.json);
-          setPoytakirjat(data);
-          if (data.length !== 0) {
-            setSelected(data[0]);
+      supabase
+        .from<{ json: string; version: number }>("data")
+        .select("*")
+        .then((rows) => {
+          const versions = rows.body?.map((i) => i.version) || [];
+          var highScore = Math.max.apply(Math, versions); // gives the highest score
+          var scoreIndex = versions.indexOf(highScore); // gives the location of the highest score
+          var newestRow = (rows.body || [])[scoreIndex];
+          if (!newestRow) {
+            alert("Tietokannassa ei ole vielä dataa.");
+          } else {
+            const data = JSON.parse(newestRow.json);
+            localStorage.setItem("poytakirjat", newestRow.json);
+            setPoytakirjat(data);
+            if (data.length !== 0) {
+              setSelected(data[0]);
+            }
+            alert("Tuonti onnistui.");
           }
-          alert('Tuonti onnistui.')
-        }
-      })
+        });
     },
   });
 }
 
-function exportData(){
+function exportData() {
   openConfirmModal({
-    title: 'Varmista vienti',
+    title: "Varmista vienti",
     children: (
       <Text size="sm">
         Huomioi että tietojen vienti ylikirjoittaa pilvessä olevat tiedot.
         <br />
-        Huomiothan että pöytäkirjapalvelu ei tue monen henkilön yhtäaikaista käyttöä.
+        Huomiothan että pöytäkirjapalvelu ei tue monen henkilön yhtäaikaista
+        käyttöä.
       </Text>
     ),
-    labels: { confirm: 'Vie ja ylikirjoita', cancel: 'Peru' },
+    labels: { confirm: "Vie ja ylikirjoita", cancel: "Peru" },
     onConfirm: () => {
-      supabase.from('data').insert({
-        json: localStorage.getItem('poytakirjat') || '[]'
-      }).then(() => {
-        alert('Vienti onnistui.')
-      })
+      supabase
+        .from("data")
+        .insert({
+          json: localStorage.getItem("poytakirjat") || "[]",
+        })
+        .then(() => {
+          alert("Vienti onnistui.");
+        });
     },
   });
+}
+
+import fsPromises from "fs/promises";
+import path from "path";
+export async function getStaticProps() {
+  const filePath = path.join(process.cwd(), "config.json");
+  const jsonData = await fsPromises.readFile(filePath);
+  const objectData = JSON.parse(jsonData as any);
+
+  return {
+    props: objectData,
+  };
 }
