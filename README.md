@@ -1,3 +1,3 @@
 # kokoustin
 
-Sovellus nuoirisovaltuuston kokousten pöytäkirjoihin.
+Sovellus nuorisovaltuuston kokousten pöytäkirjoihin.
