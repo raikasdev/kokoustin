@@ -213,6 +213,7 @@ export default function App({
             } else {
               setSelected(null);
             }
+            updateDB(temp);
           }}
         />
       )}
