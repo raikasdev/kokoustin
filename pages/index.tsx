@@ -156,6 +156,7 @@ export default function App({
                       presention: "Valitaan kokoukselle pöytäkirjantarkastajat (2kpl). Ääntenlaskijana toimii puheenjohtaja Silja Piirainen."
                     }],
                     location: defaultLocation,
+                    signers: [],
                   });
                   setPoytakirjat(temp);
                   setSelected(temp[0]);
@@ -248,6 +249,7 @@ export default function App({
       )}
       {selected != null && (
         <Attendees
+          councilMembers={councilMembers}
           poytakirja={selected}
           setPoytakirja={(poytakirja) => {
             const temp = [...poytakirjat];

@@ -27,6 +27,7 @@ interface Poytakirja {
   other: Attendee[];
   items: MeetingItem[];
   nextMeeting?: string;
+  signers: string[];
 }
 
 interface MeetingItem {

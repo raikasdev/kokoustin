@@ -176,6 +176,45 @@ const pdf = async (req: NextApiRequest, res: NextApiResponse) => {
           : poytakirja.opener?.role
       } päätti kokouksen klo. ${poytakirja.openTime}\n\n`
     );
+
+    doc
+      .fontSize(12)
+      .font("Helvetica")
+      .text(
+        `\n______________________________`
+      )
+      .fontSize(10)
+      .font("Helvetica-Bold")
+      .text('Puheenjohtaja')
+      .font("Helvetica")
+      .text(poytakirja.opener?.name || 'Silja Piirainen');
+
+    doc
+      .fontSize(12)
+      .font("Helvetica")
+      .text(
+        `\n______________________________`
+      )
+      .fontSize(10)
+      .font("Helvetica-Bold")
+      .text('Sihteeri')
+      .font("Helvetica")
+      .text(poytakirja.council.find(i => i.role === 'Sihteeri')?.name || 'Roni Äikäs');
+    
+    poytakirja.signers.forEach((i) => {
+      doc
+      .fontSize(12)
+      .font("Helvetica")
+      .text(
+        `\n______________________________`
+      )
+      .fontSize(10)
+      .font("Helvetica-Bold")
+      .text('Pöytäkirjantarkistaja')
+      .font("Helvetica")
+      .text(i);
+    })
+    
   doc.end();
 };
 
