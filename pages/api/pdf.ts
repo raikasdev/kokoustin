@@ -174,7 +174,7 @@ const pdf = async (req: NextApiRequest, res: NextApiResponse) => {
         poytakirja.opener?.mainMemberName
           ? poytakirja.opener.roleIfMainMemberAbsent
           : poytakirja.opener?.role
-      } päätti kokouksen klo. ${poytakirja.openTime}\n\n`
+      } päätti kokouksen klo. ${poytakirja.closeTime}\n\n`
     );
 
     doc
