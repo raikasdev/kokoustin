@@ -29,7 +29,7 @@ export function Item({
         </Group>
       </h2>
       <Textarea
-        value={item.presention?.replaceAll("\\n", "\n")}
+        value={item.presention?.replaceAll("\\n", "\n") || ""}
         onChange={(event) => {
           item.presention = event.currentTarget.value as any;
           setPoytakirja(pkc);
@@ -37,7 +37,7 @@ export function Item({
         label="Pohjaesitys"
       />
       <Textarea
-        value={item.meeting?.replaceAll("\\n", "\n")}
+        value={item.meeting?.replaceAll("\\n", "\n") || ""}
         onChange={(event) => {
           item.meeting = event.currentTarget.value as any;
           setPoytakirja(pkc);
@@ -45,7 +45,7 @@ export function Item({
         label="Kokouskeskustelu"
       />
       <Textarea
-        value={item.decision?.replaceAll("\\n", "\n")}
+        value={item.decision?.replaceAll("\\n", "\n") || ""}
         onChange={(event) => {
           item.decision = event.currentTarget.value as any;
           setPoytakirja(pkc);
