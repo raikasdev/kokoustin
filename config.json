@@ -2,7 +2,8 @@
   "councilMembers": [
     {
       "name": "Silja Piirainen",
-      "role": "Puheenjohtaja"
+      "role": "Puheenjohtaja",
+      "absent": true
     },
     {
       "name": "Saara Toivonen",
@@ -34,7 +35,9 @@
     },
     {
       "name": "Onni Juntunen",
-      "role": "Jäsen"
+      "role": "Jäsen",
+      "mainMemberName": "Saara Toivonen",
+      "roleIfMainMemberAbsent": "Puheenjohtaja (varalla)"
     },
     {
       "name": "Jesse Sipovaara",

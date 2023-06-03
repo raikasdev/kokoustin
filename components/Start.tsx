@@ -18,8 +18,8 @@ export function Start({
     <>
       <h2>1. Kokouksen avaus</h2>
       <Select
-        label="Kokouksen avasi"
-        placeholder="Valitse avaaja"
+        label="Kokouksen puheenjohtaja"
+        placeholder="Valitse puheenjohtaja"
         value={councilMembers
           .map((i) => i.name)
           .indexOf(((poytakirja as any).opener || { name: "" }).name)
@@ -28,6 +28,29 @@ export function Start({
           pkc.opener = councilMembers[parseInt(value)];
           console.log(value);
           console.log(pkc.opener);
+          setPoytakirja(pkc);
+        }}
+        sx={{
+          "@media (min-width: 1000px)": {
+            width: "20%",
+          },
+        }}
+        data={councilMembers.map((i, index) => ({
+          value: `${index}`,
+          label: i.name,
+        }))}
+      />
+      <Select
+        label="Kokouksen sihteeri"
+        placeholder="Valitse sihteeri"
+        value={councilMembers
+          .map((i) => i.name)
+          .indexOf(((poytakirja as any).secretary || { name: "" }).name)
+          .toString()}
+        onChange={(value: string) => {
+          pkc.secretary = councilMembers[parseInt(value)];
+          console.log(value);
+          console.log(pkc.secretary);
           setPoytakirja(pkc);
         }}
         sx={{

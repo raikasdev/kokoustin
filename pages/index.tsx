@@ -140,7 +140,7 @@ export default function App({
                     council: councilMembers.map((i) => ({
                       name: i.name,
                       role: i.role,
-                      absent: false,
+                      absent: i.absent || false,
                       memberObject: i,
                     })),
                     other: defaultOther,
@@ -275,6 +275,13 @@ export default function App({
             poytakirja.council
               .filter((i) => i.memberObject.mainMemberName)
               .map((i) => {
+                console.log(
+                  `${i.name} is main member absent ${
+                    poytakirja.council.find(
+                      (a) => a.name === i.memberObject.mainMemberName
+                    )?.absent
+                  }`
+                );
                 if (
                   poytakirja.council.find(
                     (a) => a.name === i.memberObject.mainMemberName

@@ -1,8 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { NextApiRequest, NextApiResponse } from "next";
 import PDFDocument from "pdfkit-table";
-import fsPromises from 'fs/promises';
-import path from 'path';
+import fsPromises from "fs/promises";
+import path from "path";
 
 const pdf = async (req: NextApiRequest, res: NextApiResponse) => {
   if (!req.query.object) {
@@ -177,44 +177,38 @@ const pdf = async (req: NextApiRequest, res: NextApiResponse) => {
       } päätti kokouksen klo. ${poytakirja.closeTime}\n\n`
     );
 
-    doc
-      .fontSize(12)
-      .font("Helvetica")
-      .text(
-        `\n______________________________`
-      )
-      .fontSize(10)
-      .font("Helvetica-Bold")
-      .text('Puheenjohtaja')
-      .font("Helvetica")
-      .text(poytakirja.opener?.name || 'Silja Piirainen');
+  doc
+    .fontSize(12)
+    .font("Helvetica")
+    .text(`\n______________________________`)
+    .fontSize(10)
+    .font("Helvetica-Bold")
+    .text("Puheenjohtaja")
+    .font("Helvetica")
+    .text(poytakirja.opener?.name || "Silja Piirainen");
 
+  doc
+    .fontSize(12)
+    .font("Helvetica")
+    .text(`\n______________________________`)
+    .fontSize(10)
+    .font("Helvetica-Bold")
+    .text("Sihteeri")
+    .font("Helvetica")
+    .text(poytakirja.secretary?.name || "Roni Äikäs");
+
+  poytakirja.signers.forEach((i) => {
     doc
       .fontSize(12)
       .font("Helvetica")
-      .text(
-        `\n______________________________`
-      )
+      .text(`\n______________________________`)
       .fontSize(10)
       .font("Helvetica-Bold")
-      .text('Sihteeri')
-      .font("Helvetica")
-      .text(poytakirja.council.find(i => i.role === 'Sihteeri')?.name || 'Roni Äikäs');
-    
-    poytakirja.signers.forEach((i) => {
-      doc
-      .fontSize(12)
-      .font("Helvetica")
-      .text(
-        `\n______________________________`
-      )
-      .fontSize(10)
-      .font("Helvetica-Bold")
-      .text('Pöytäkirjantarkistaja')
+      .text("Pöytäkirjantarkistaja")
       .font("Helvetica")
       .text(i);
-    })
-    
+  });
+
   doc.end();
 };
 

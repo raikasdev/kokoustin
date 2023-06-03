@@ -3,6 +3,7 @@ interface CouncilMember {
   role: string;
   roleIfMainMemberAbsent?: string;
   mainMemberName?: string;
+  absent?: boolean;
 }
 
 interface Attendee {
@@ -21,6 +22,7 @@ interface Poytakirja {
   date: `${string}.${string}.${string}`;
   location?: string;
   opener?: CouncilMember;
+  secretary?: CouncilMember;
   openTime?: `${string}:${string}`;
   closeTime?: `${string}:${string}`;
   council: CouncilAttendee[];
