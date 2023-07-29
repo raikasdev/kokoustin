@@ -14,6 +14,9 @@ const nextConfig = {
     APP_VERSION: pkg.version,
     COMMIT_HASH: commitHash,
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 module.exports = nextConfig;
