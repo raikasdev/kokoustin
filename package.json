@@ -1,6 +1,6 @@
 {
   "name": "kokoustin2",
-  "version": "0.1.0",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -27,14 +27,19 @@
     "@types/react": "18.2.15",
     "@types/react-dom": "18.2.7",
     "dayjs": "^1.11.9",
+    "dexie": "^3.2.4",
+    "dexie-react-hooks": "^1.1.6",
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.12",
+    "firebase": "^10.1.0",
     "next": "13.4.12",
     "react": "18.2.0",
+    "react-beautiful-dnd": "^13.1.1",
     "react-dom": "18.2.0",
     "typescript": "5.1.6"
   },
   "devDependencies": {
+    "@types/react-beautiful-dnd": "^13.1.4",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-import": "^2.27.5",
