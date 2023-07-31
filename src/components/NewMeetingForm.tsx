@@ -35,6 +35,7 @@ export default function NewMeetingForm() {
           secretary: defaultSecretary,
           checkers: [],
         };
+        console.log(meeting);
         const id = await meetingsTable.add({
           date: meeting.date,
           json: JSON.stringify(meeting),

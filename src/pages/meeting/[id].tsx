@@ -27,6 +27,8 @@ export default function Meeting() {
 
       const newMeeting = JSON.parse(meeting.json);
       newMeeting.id = meeting.id;
+      console.log("Loaded");
+      console.log(newMeeting);
 
       setMeeting(newMeeting);
       cancel();
@@ -39,6 +41,7 @@ export default function Meeting() {
     database.transaction("rw", meetingsTable, async function () {
       const meeting = await meetingsTable.get(debouncedMeeting.id);
       if (!meeting) return;
+      console.log(debouncedMeeting);
       meetingsTable.put(
         {
           id: debouncedMeeting?.id,

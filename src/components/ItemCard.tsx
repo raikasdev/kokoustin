@@ -9,6 +9,9 @@ import {
 } from "@mantine/core";
 import { IconGripVertical } from "@tabler/icons-react";
 import NormalItem from "./NormalItem";
+import OpenMeeting from "./OpenMeeting";
+import MinutesChecker from "./MinutesChecker";
+import CloseMeeting from "./CloseMeeting";
 
 type ItemCardProps = {
   index: number;
@@ -19,6 +22,8 @@ type ItemCardProps = {
   classes: any;
   isMinutesMode: boolean;
   setItem: (item: MeetingItem) => void;
+  meeting: Meeting;
+  setMeeting: (meeting: Meeting) => void;
 };
 
 export default function ItemCard({
@@ -30,12 +35,52 @@ export default function ItemCard({
   index,
   setItem,
   isMinutesMode,
+  meeting,
+  setMeeting,
 }: ItemCardProps) {
   const title = item.title === "" ? "Otsikkoa ei asetettu" : item.title;
   const presentation =
     item.presentation === "" ? "Pohjaesitystä ei asetettu" : item.presentation;
 
   const theme = useMantineTheme();
+
+  let controlItem = (
+    <NormalItem isMinutesMode={isMinutesMode} item={item} setItem={setItem} />
+  );
+
+  switch (item.specialComponent) {
+    case "open-meeting":
+      controlItem = (
+        <OpenMeeting
+          isMinutesMode={isMinutesMode}
+          item={item}
+          setItem={setItem}
+          meeting={meeting}
+          setMeeting={setMeeting}
+        />
+      );
+      break;
+    case "minutes-checker":
+      controlItem = (
+        <MinutesChecker
+          isMinutesMode={isMinutesMode}
+          item={item}
+          setItem={setItem}
+          meeting={meeting}
+          setMeeting={setMeeting}
+        />
+      );
+      break;
+    case "close-meeting":
+      controlItem = (
+        <CloseMeeting
+          isMinutesMode={isMinutesMode}
+          item={item}
+          setItem={setItem}
+          meeting={meeting}
+        />
+      );
+  }
   return (
     <Box
       sx={{
@@ -86,11 +131,7 @@ export default function ItemCard({
             borderRadius: theme.radius.md,
           }}
         >
-          <NormalItem
-            isMinutesMode={isMinutesMode}
-            item={item}
-            setItem={setItem}
-          />
+          {controlItem}
         </Accordion.Panel>
       </Accordion.Item>
     </Box>

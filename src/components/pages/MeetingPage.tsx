@@ -77,6 +77,7 @@ export default function MeetingPage({
   );
 
   useEffect(() => {
+    console.log(meeting.forcedFirst, forcedFirstState);
     meeting.items = state;
     meeting.forcedFirst = forcedFirstState;
     meeting.forcedLast = forcedLastState;
@@ -99,6 +100,8 @@ export default function MeetingPage({
           item={item}
           setItem={(item) => handlers.setItem(index, item)}
           isMinutesMode={mode === "minutes"}
+          meeting={meeting}
+          setMeeting={setMeeting}
         />
       )}
     </Draggable>
@@ -115,6 +118,8 @@ export default function MeetingPage({
       key={index}
       setItem={(item) => forcedFirstHandlers.setItem(index, item)}
       isMinutesMode={mode === "minutes"}
+      meeting={meeting}
+      setMeeting={setMeeting}
     />
   ));
 
@@ -129,6 +134,8 @@ export default function MeetingPage({
       key={index}
       setItem={(item) => forcedLastHandlers.setItem(index, item)}
       isMinutesMode={mode === "minutes"}
+      meeting={meeting}
+      setMeeting={setMeeting}
     />
   ));
 

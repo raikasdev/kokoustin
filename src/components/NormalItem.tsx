@@ -37,6 +37,7 @@ export default function NormalItem({
       meetingNotes,
       decision,
       isSecret,
+      specialComponent: item.specialComponent,
     });
   }, [title, info, presentation, meetingNotes, decision, isSecret]);
 

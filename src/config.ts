@@ -15,7 +15,7 @@ export const forcedFirst: MeetingItem[] = [
     information: "",
     presentation: "Asiat käsitellään asialistan mukaisessa järjestyksessä.",
     meetingNotes: "",
-    decision: "",
+    decision: "Nuorisovaltuusto hyväksyi työjärjestyksen.",
     isSecret: false,
   },
   {
@@ -24,7 +24,8 @@ export const forcedFirst: MeetingItem[] = [
     presentation:
       "Kokous todetaan laillisesti koolle kutsutuksi ja päätösvaltaiseksi.\nToimielin on päätösvaltainen, kun paikalla on yli puolet jäsenistä (Nuorisovaltuuston toimintasääntö §5)",
     meetingNotes: "",
-    decision: "",
+    decision:
+      "Paikalla x/9. Kokous on laillisesti koolle kutsuttu ja päätösvaltainen.",
     isSecret: false,
   },
   {
@@ -62,8 +63,8 @@ export const forcedLast: MeetingItem[] = [
     information: "",
     presentation: "Päätetään seuraavan kokouksen ajankohta.",
     meetingNotes: "",
-    decision: "",
-    specialComponent: "next-date",
+    decision:
+      "Seuraava kokous on x. Ajankohta ja kokouspaikka ilmoitetaan kokouskutsun yhteydessä.",
     isSecret: false,
   },
   {
