@@ -49,7 +49,7 @@ export async function loadFromCloud() {
                   id: meeting.id,
                   date: meeting.date,
                   json: JSON.stringify(meeting),
-                  version: doc.data().editHistory.length || 0,
+                  version: JSON.parse(doc.data().editHistory).length || 0,
                 },
                 meeting.id,
               );
@@ -64,7 +64,7 @@ export async function loadFromCloud() {
           id: meeting.id,
           date: meeting.date,
           json: JSON.stringify(meeting),
-          version: doc.data().editHistory.length || 0,
+          version: JSON.parse(doc.data().editHistory).length || 0,
         },
         meeting.id,
       );
@@ -88,7 +88,7 @@ export async function saveItemToCloud(meeting: Meeting) {
   let editHistory: any[] = [];
   if (currentItemDocSnap.exists()) {
     // Calculate difference
-    editHistory = currentItemDocSnap.data().editHistory;
+    editHistory = JSON.parse(currentItemDocSnap.data().editHistory || "[]");
     if (!Array.isArray(editHistory)) {
       console.error("Not array!");
       editHistory = [];
@@ -144,15 +144,10 @@ async function finishSaving(
   meeting: Meeting,
   editHistory: any[],
 ) {
-  console.log({
-    id: meeting.id,
-    json: JSON.stringify(meeting),
-    editHistory,
-  });
   await setDoc(currentItemDoc, {
     id: meeting.id,
     json: JSON.stringify(meeting),
-    editHistory,
+    editHistory: JSON.stringify(editHistory),
   });
 
   const localMeeting = await meetingsTable.get(meeting.id);
