@@ -144,6 +144,11 @@ async function finishSaving(
   meeting: Meeting,
   editHistory: any[],
 ) {
+  console.log({
+    id: meeting.id,
+    json: JSON.stringify(meeting),
+    editHistory,
+  });
   await setDoc(currentItemDoc, {
     id: meeting.id,
     json: JSON.stringify(meeting),
