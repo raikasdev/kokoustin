@@ -20,7 +20,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <MantineProvider
         withGlobalStyles
         withNormalizeCSS
-        theme={{ colorScheme }}
+        theme={{ colorScheme: "light" }}
       >
         <Notifications />
         <ModalsProvider>
