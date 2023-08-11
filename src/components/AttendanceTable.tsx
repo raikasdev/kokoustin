@@ -69,7 +69,11 @@ export default function AttendanceTable({
                   setMeeting(meeting);
                 }}
                 removeMember={() => {
-                  meeting.otherAttendees.splice(index, 1);
+                  meeting.otherAttendees = meeting.otherAttendees.splice(
+                    index,
+                    1,
+                  );
+                  setMeeting(meeting);
                 }}
               />
             ))}
