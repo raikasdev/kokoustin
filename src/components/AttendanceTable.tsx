@@ -61,12 +61,127 @@ export default function AttendanceTable({
             </tr>
           </thead>
           <tbody>
-            {/*rowsOther*/}
+            {meeting.otherAttendees.map((member, index) => (
+              <OtherAttendeeRow
+                member={member}
+                setMember={(newMember) => {
+                  meeting.councilMembers[index] = newMember;
+                  setMeeting(meeting);
+                }}
+                removeMember={() => {
+                  meeting.otherAttendees.splice(index, 1);
+                }}
+              />
+            ))}
             <AddOtherAttendeeForm addAttendee={() => null} />
           </tbody>
         </Table>
       </ScrollArea>
     </>
+  );
+}
+
+function OtherAttendeeRow({
+  member,
+  setMember,
+  removeMember,
+}: {
+  member: CouncilMember;
+  setMember: (member: CouncilMember) => void;
+  removeMember: () => void;
+}) {
+  const theme = useMantineTheme();
+
+  return (
+    <tr key={member.name}>
+      <td>{member.name}</td>
+      <td>
+        <Switch
+          defaultChecked={!member.absent}
+          onChange={(event) => {
+            member.absent = !event.currentTarget.checked;
+            setMember(member);
+          }}
+          color="teal"
+          size="md"
+          label={member.absent ? "Poissa" : "Paikalla"}
+          thumbIcon={
+            !member.absent ? (
+              <IconCheck
+                size={12}
+                color={theme.colors.teal[theme.fn.primaryShade()]}
+                stroke={3}
+              />
+            ) : (
+              <IconX
+                size={12}
+                color={theme.colors.red[theme.fn.primaryShade()]}
+                stroke={3}
+              />
+            )
+          }
+        />
+      </td>
+      <td>
+        <TextInput
+          sx={{ minWidth: "150px" }}
+          placeholder="16:18"
+          maxLength={5}
+          defaultValue={member.joinedAt}
+          onChange={(event) => {
+            member.joinedAt = event.currentTarget.value;
+            setMember(member);
+          }}
+          rightSection={
+            <ActionIcon
+              onClick={() => {
+                member.joinedAt = `${new Date()
+                  .getHours()
+                  .toString()
+                  .padStart(2, "0")}:${new Date()
+                  .getMinutes()
+                  .toString()
+                  .padStart(2, "0")}`;
+                setMember(member);
+              }}
+            >
+              <IconClock size="xs" />
+            </ActionIcon>
+          }
+        />
+      </td>
+      <td>
+        <TextInput
+          sx={{ minWidth: "150px" }}
+          placeholder="16:12"
+          maxLength={5}
+          defaultValue={member.leftAt}
+          onChange={(event) => {
+            member.leftAt = event.currentTarget.value;
+            setMember(member);
+          }}
+          rightSection={
+            <ActionIcon
+              onClick={() => {
+                member.leftAt = `${new Date()
+                  .getHours()
+                  .toString()
+                  .padStart(2, "0")}:${new Date()
+                  .getMinutes()
+                  .toString()
+                  .padStart(2, "0")}`;
+                setMember(member);
+              }}
+            >
+              <IconClock size="xs" />
+            </ActionIcon>
+          }
+        />
+      </td>
+      <td>
+        <button onClick={removeMember}>Poista</button>
+      </td>
+    </tr>
   );
 }
 
@@ -168,6 +283,7 @@ function AttendeeRow({
     </tr>
   );
 }
+
 function AddOtherAttendeeForm({
   addAttendee,
 }: {
