@@ -80,23 +80,15 @@ export const forcedLast: MeetingItem[] = [
 
 export const councilMembers: CouncilMember[] = [
   {
+    name: "Lumi Eklöf",
+    role: "Jäsen",
+  },
+  {
     name: "Saara Toivonen",
     role: "Jäsen",
   },
   {
     name: "Roni Äikäs",
-    role: "Jäsen",
-  },
-  {
-    name: "Pessi Lemmetyinen",
-    role: "Jäsen",
-  },
-  {
-    name: "Pessi Lemmetyinen",
-    role: "Jäsen",
-  },
-  {
-    name: "Lumi Eklöf",
     role: "Jäsen",
   },
   {
@@ -129,6 +121,10 @@ export const councilMembers: CouncilMember[] = [
   },
   {
     name: "Helmi Pitkäniemi",
+    role: "Jäsen",
+  },
+  {
+    name: "Pessi Lemmetyinen",
     role: "Jäsen",
   },
   {
