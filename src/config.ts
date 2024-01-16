@@ -81,18 +81,10 @@ export const forcedLast: MeetingItem[] = [
 export const councilMembers: CouncilMember[] = [
   {
     name: "Saara Toivonen",
-    role: "Puheenjohtaja",
-  },
-  {
-    name: "Roni Äikäs",
-    role: "Sihteeri",
-  },
-  {
-    name: "Pinja Pietarinen",
     role: "Jäsen",
   },
   {
-    name: "Malla Myyry",
+    name: "Roni Äikäs",
     role: "Jäsen",
   },
   {
@@ -100,22 +92,48 @@ export const councilMembers: CouncilMember[] = [
     role: "Jäsen",
   },
   {
-    name: "Onni Juntunen",
+    name: "Pessi Lemmetyinen",
+    role: "Jäsen",
+  },
+  {
+    name: "Lumi Eklöf",
+    role: "Jäsen",
+  },
+  {
+    name: "Aini Ruokokoski",
+    role: "Jäsen",
+  },
+  {
+    name: "Papu Lemmetyinen",
+    role: "Jäsen",
+  },
+  {
+    name: "Viivi Hinkkuri",
+    role: "Jäsen",
+  },
+  {
+    name: "Minea Lehtonen",
+    role: "Jäsen",
+  },
+  {
+    name: "Nika Äikäs",
+    role: "Jäsen",
+  },
+  {
+    name: "Oiva Aho",
+    role: "Jäsen",
+  },
+  {
+    name: "Linnea Savolainen",
+    role: "Jäsen",
+  },
+  {
+    name: "Helmi Pitkäniemi",
     role: "Jäsen",
   },
   {
     name: "Silja Piirainen",
     role: "Jäsen",
-    absent: true,
-  },
-  {
-    name: "Miro Isotalo",
-    role: "Jäsen",
-  },
-  {
-    name: "Jesse Sipovaara",
-    role: "Jäsen",
-    absent: true,
   },
 ];
 
