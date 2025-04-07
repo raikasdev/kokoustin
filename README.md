@@ -10,3 +10,8 @@ This is version 2, built on top of Next.js 13, but not App Router (due to Mantin
 - Supabase's free plan isn't great if the program is only needed once a month
 - Cloud saving was very buggy
 - Some UI bugs (and it was pretty ugly!)
+
+## Screenshots
+
+![image](https://github.com/user-attachments/assets/0572ce7d-5f9f-4b78-9668-64ca2b16ac7c)
+![image](https://github.com/user-attachments/assets/ceab0b07-ef7e-4c16-9c17-3d6804c3d189)
